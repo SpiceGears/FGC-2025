@@ -5,21 +5,24 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
 @TeleOp(name="testDrive", group="Linear Opmode")
 public class TestDrive extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
-    private final Climbing climbing = new Climbing(this);
+//    private final Climbing climbing = new Climbing(this);
     private final Shooter shooter = new Shooter(this);
+    private final Intake intake = new Intake(this);
 
     @Override
     public void runOpMode() {
         // Initialize the drivetrain subsystem
         drivetrain.init();
-        climbing.init();
+//        climbing.init();
         shooter.init();
+        intake.init();
 
         // Send a message to the Driver Station that the OpMode is initialized
         telemetry.addData("Status", "Initialized");
@@ -47,18 +50,24 @@ public class TestDrive extends LinearOpMode {
             }
 
             // Apply speed modifier based on bumper press
-            if(gamepad1.dpad_down) {
-                climbing.drive();
-            }
-            else { climbing.stop(); }
-
-            if(gamepad1.dpad_up) {
-                climbing.reverse();
-            }
-            else { climbing.stop(); }
+//            if(gamepad1.dpad_down) {
+//                climbing.drive();
+//            }
+//            else { climbing.stop(); }
+//
+//            if(gamepad1.dpad_up) {
+//                climbing.reverse();
+//            }
+//            else { climbing.stop(); }
 
             // Command the drivetrain to move
             drivetrain.drive(drive, turn);
+
+            if(gamepad1.right_bumper) {
+                intake.take();
+            } else if (gamepad1.left_bumper) {
+                intake.untake();
+            } else intake.stop();
 
             shooter.shoot(gamepad1.right_trigger);
 
