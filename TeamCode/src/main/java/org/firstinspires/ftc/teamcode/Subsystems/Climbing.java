@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Climbing {
     private final LinearOpMode opMode;
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
+    private DcMotor leftClimb;
+    private DcMotor rightClimb;
     private double leftPower;
     private double rightPower;
 
@@ -17,28 +17,28 @@ public class Climbing {
     }
 
     public void init() {
-        leftDrive = opMode.hardwareMap.get(DcMotor.class, "leftClimb");
-        rightDrive = opMode.hardwareMap.get(DcMotor.class, "rightClimb");
+        leftClimb = opMode.hardwareMap.get(DcMotor.class, "leftClimb");
+        rightClimb = opMode.hardwareMap.get(DcMotor.class, "rightClimb");
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftClimb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightClimb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftClimb.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightClimb.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void drive() {
-        leftDrive.setPower(1);
-        rightDrive.setPower(1);
+        leftClimb.setPower(1);
+        rightClimb.setPower(1);
     }
 
     public void reverse() {
-        leftDrive.setPower(-1);
-        rightDrive.setPower(-1);
+        leftClimb.setPower(-1);
+        rightClimb.setPower(-1);
     }
 
     public void stop() {
-        rightDrive.setPower(0);
-        leftDrive.setPower(0);
+        rightClimb.setPower(0);
+        leftClimb.setPower(0);
     }
 }

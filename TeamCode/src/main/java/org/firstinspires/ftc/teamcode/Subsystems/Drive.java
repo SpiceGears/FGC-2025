@@ -7,8 +7,10 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Drive {
     private final LinearOpMode opMode;
-    private DcMotor leftDrive;
-    private DcMotor rightDrive;
+    private DcMotor frontLeftDrive;
+    private DcMotor frontRightDrive;
+    private DcMotor rearLeftDrive;
+    private DcMotor rearRightDrive;
     private double speedModifier;
     private double leftPower;
     private double rightPower;
@@ -18,14 +20,19 @@ public class Drive {
     }
 
     public void init() {
-        leftDrive = opMode.hardwareMap.get(DcMotor.class, "leftDrive");
-        rightDrive = opMode.hardwareMap.get(DcMotor.class, "rightDrive");
+        frontLeftDrive = opMode.hardwareMap.get(DcMotor.class, "frontLeftDrive");
+        frontRightDrive = opMode.hardwareMap.get(DcMotor.class, "frontRightDrive");
+        rearLeftDrive = opMode.hardwareMap.get(DcMotor.class, "rearLeftDrive");
+        rearRightDrive = opMode.hardwareMap.get(DcMotor.class, "rearRightDrive");
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rearLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rearRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        rearRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
 
         speedModifier = 1.0;
     }
@@ -34,13 +41,17 @@ public class Drive {
         leftPower = Range.clip(drive + turn, -1.0, 1.0) * speedModifier;
         rightPower = Range.clip(drive - turn, -1.0, 1.0) * speedModifier;
 
-        leftDrive.setPower(leftPower);
-        rightDrive.setPower(rightPower);
+        frontLeftDrive.setPower(leftPower);
+        frontRightDrive.setPower(rightPower);
+        rearLeftDrive.setPower(leftPower);
+        rearRightDrive.setPower(rightPower);
     }
 
     public void stop() {
-        rightDrive.setPower(0);
-        leftDrive.setPower(0);
+        frontLeftDrive.setPower(0);
+        frontRightDrive.setPower(0);
+        rearLeftDrive.setPower(0);
+        rearRightDrive.setPower(0);
     }
 
     public void setSpeedModifier(double modifier) {

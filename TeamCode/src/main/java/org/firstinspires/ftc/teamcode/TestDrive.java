@@ -5,18 +5,21 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
 @TeleOp(name="testDrive", group="Linear Opmode")
 public class TestDrive extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
     private final Climbing climbing = new Climbing(this);
+    private final Shooter shooter = new Shooter(this);
 
     @Override
     public void runOpMode() {
         // Initialize the drivetrain subsystem
         drivetrain.init();
         climbing.init();
+        shooter.init();
 
         // Send a message to the Driver Station that the OpMode is initialized
         telemetry.addData("Status", "Initialized");
@@ -35,19 +38,29 @@ public class TestDrive extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;
             double turn = gamepad1.right_stick_x;
 
-            // Apply speed modifier based on bumper press
+            drivetrain.drive(drive, turn);
+
             if(gamepad1.right_bumper) {
+                drivetrain.setSpeedModifier(0.5);
+            } else {
+                drivetrain.setSpeedModifier(1.0);
+            }
+
+            // Apply speed modifier based on bumper press
+            if(gamepad1.dpad_down) {
                 climbing.drive();
             }
             else { climbing.stop(); }
 
-            if(gamepad1.left_bumper) {
+            if(gamepad1.dpad_up) {
                 climbing.reverse();
             }
             else { climbing.stop(); }
 
             // Command the drivetrain to move
             drivetrain.drive(drive, turn);
+
+            shooter.shoot(gamepad1.right_trigger);
 
             // --- TELEMETRY ADDITIONS START HERE ---
 
