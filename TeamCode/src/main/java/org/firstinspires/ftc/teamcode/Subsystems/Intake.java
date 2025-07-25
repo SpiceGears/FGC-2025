@@ -22,12 +22,12 @@ public class Intake {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void take() {
-        intake.setPower(1);
+    public void take(float power) {
+        intake.setPower(power);
     }
 
-    public void untake() {
-        intake.setPower(-1);
+    public void untake(float power) {
+        intake.setPower(-power);
     }
 
     public void stop() {
