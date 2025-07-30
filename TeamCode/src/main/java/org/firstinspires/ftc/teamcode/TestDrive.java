@@ -13,16 +13,17 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 public class TestDrive extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
-//    private final Climbing climbing = new Climbing(this);
+    private final Climbing climbing = new Climbing(this);
 //    private final Shooter shooter = new Shooter(this);
     private final Intake intake = new Intake(this);
     private final Bucket bucket = new Bucket(this);
+    boolean toggleButtonLastState = false;
 
     @Override
     public void runOpMode() {
         // Initialize the drivetrain subsystem
         drivetrain.init();
-//        climbing.init();
+        climbing.init();
 //        shooter.init();
         intake.init();
         bucket.init();
@@ -41,8 +42,8 @@ public class TestDrive extends LinearOpMode {
         // Loop while the OpMode is active and not stopped
         while(opModeIsActive()) {
             // Get gamepad input for driving
-            double drive = -gamepad1.left_stick_y;
-            double turn = gamepad1.right_stick_x;
+            double drive = gamepad1.left_stick_y;
+            double turn = -gamepad1.right_stick_x;
 
             drivetrain.drive(drive, turn);
 
@@ -54,24 +55,40 @@ public class TestDrive extends LinearOpMode {
                 bucket.stop();
             }
 
+            climbing.updateServoMechanism();
 
+            boolean currentToggleButtonState = gamepad1.y;
 
-            // Apply speed modifier based on bumper press
-//            if(gamepad1.dpad_down) {
-//                climbing.drive();
-//            }
-//            else { climbing.stop(); }
-//
-//            if(gamepad1.dpad_up) {
-//                climbing.reverse();
-//            }
-//            else { climbing.stop(); }
+            if (currentToggleButtonState && !toggleButtonLastState) {
+                Climbing.ServoState currentState = climbing.getCurrentServoState();
+
+                if (currentState == Climbing.ServoState.RETRACTED_IDLE || currentState == Climbing.ServoState.STOPPED) {
+                    climbing.startExtending();
+                } else if (currentState == Climbing.ServoState.EXTENDED_IDLE) {
+                    climbing.startRetracting();
+                }
+            }
+
+            climbing.updateServoMechanism();
+
+            toggleButtonLastState = currentToggleButtonState;
+
+            if(gamepad1.dpad_down) {
+                climbing.drive();
+            }
+
+            else if(gamepad1.dpad_up) {
+                climbing.reverse();
+            }
+            else { climbing.stop(); }
 
             // Command the drivetrain to move
             drivetrain.drive(drive, turn);
 
             intake.take(gamepad1.right_trigger);
             intake.untake(gamepad1.left_trigger);
+
+
 
 //            shooter.shoot(gamepad1.right_trigger);
 
