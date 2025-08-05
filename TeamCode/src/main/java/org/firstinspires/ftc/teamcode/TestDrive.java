@@ -13,20 +13,20 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 public class TestDrive extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
-    private final Climbing climbing = new Climbing(this);
+    //private final Climbing climbing = new Climbing(this);
 //    private final Shooter shooter = new Shooter(this);
     private final Intake intake = new Intake(this);
-    private final Bucket bucket = new Bucket(this);
+    //private final Bucket bucket = new Bucket(this);
     boolean toggleButtonLastState = false;
 
     @Override
     public void runOpMode() {
         // Initialize the drivetrain subsystem
         drivetrain.init();
-        climbing.init();
+        //climbing.init();
 //        shooter.init();
         intake.init();
-        bucket.init();
+        //bucket.init();
 
         // Send a message to the Driver Station that the OpMode is initialized
         telemetry.addData("Status", "Initialized");

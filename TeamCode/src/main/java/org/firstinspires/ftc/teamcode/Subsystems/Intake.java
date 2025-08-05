@@ -16,14 +16,14 @@ public class Intake {
     }
 
     public void init() {
-        intakeLeft = opMode.hardwareMap.get(DcMotor.class, "intakeLeft");
-        intakeRight = opMode.hardwareMap.get(DcMotor.class, "intakeRight");
+        intakeLeft = opMode.hardwareMap.get(DcMotor.class, "leftIntake");
+        intakeRight = opMode.hardwareMap.get(DcMotor.class, "rightIntake");
 
         intakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intakeLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void take(float power) {
