@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.util.Range;
 
 public class Intake {
     private final LinearOpMode opMode;
-    private DcMotor intake;
+    private DcMotor intakeRight;
+    private DcMotor intakeLeft;
     private double power;
 
     public Intake(LinearOpMode opMode) {
@@ -15,22 +16,23 @@ public class Intake {
     }
 
     public void init() {
-        intake = opMode.hardwareMap.get(DcMotor.class, "intake");
+        intakeLeft = opMode.hardwareMap.get(DcMotor.class, "intakeLeft");
+        intakeRight = opMode.hardwareMap.get(DcMotor.class, "intakeRight");
 
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeRight.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
     public void take(float power) {
-        intake.setPower(power);
-    }
-
-    public void untake(float power) {
-        intake.setPower(-power);
+        intakeLeft.setPower(power);
+        intakeRight.setPower(power);
     }
 
     public void stop() {
-        intake.setPower(0);
+        intakeLeft.setPower(0);
+        intakeRight.setPower(0);
     }
 }

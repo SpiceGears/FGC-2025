@@ -47,46 +47,27 @@ public class TestDrive extends LinearOpMode {
 
             drivetrain.drive(drive, turn);
 
-            if(gamepad1.right_bumper) {
-                bucket.setMotorPower(1);
-            } else if (gamepad1.left_bumper) {
-                bucket.setMotorPower(-1);
-            } else {
-                bucket.stop();
-            }
+//            if(gamepad1.right_bumper) {
+//                bucket.setMotorPower(1);
+//            } else if (gamepad1.left_bumper) {
+//                bucket.setMotorPower(-1);
+//            } else {
+//                bucket.stop();
+//            }
 
-            climbing.updateServoMechanism();
-
-            boolean currentToggleButtonState = gamepad1.y;
-
-            if (currentToggleButtonState && !toggleButtonLastState) {
-                Climbing.ServoState currentState = climbing.getCurrentServoState();
-
-                if (currentState == Climbing.ServoState.RETRACTED_IDLE || currentState == Climbing.ServoState.STOPPED) {
-                    climbing.startExtending();
-                } else if (currentState == Climbing.ServoState.EXTENDED_IDLE) {
-                    climbing.startRetracting();
-                }
-            }
-
-            climbing.updateServoMechanism();
-
-            toggleButtonLastState = currentToggleButtonState;
-
-            if(gamepad1.dpad_down) {
-                climbing.drive();
-            }
-
-            else if(gamepad1.dpad_up) {
-                climbing.reverse();
-            }
-            else { climbing.stop(); }
+//            if(gamepad1.dpad_down) {
+//                climbing.drive();
+//            }
+//
+//            else if(gamepad1.dpad_up) {
+//                climbing.reverse();
+//            }
+//            else { climbing.stop(); }
 
             // Command the drivetrain to move
-            drivetrain.drive(drive, turn);
 
             intake.take(gamepad1.right_trigger);
-            intake.untake(gamepad1.left_trigger);
+            intake.take(-gamepad1.left_trigger);
 
 
 
