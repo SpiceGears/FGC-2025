@@ -17,7 +17,6 @@ public class TestDrive extends LinearOpMode {
 //    private final Shooter shooter = new Shooter(this);
     private final Intake intake = new Intake(this);
     private final Bucket bucket = new Bucket(this);
-    boolean toggleButtonLastState = false;
 
     @Override
     public void runOpMode() {
@@ -54,24 +53,6 @@ public class TestDrive extends LinearOpMode {
             } else {
                 bucket.stop();
             }
-
-            climbing.updateServoMechanism();
-
-            boolean currentToggleButtonState = gamepad1.y;
-
-            if (currentToggleButtonState && !toggleButtonLastState) {
-                Climbing.ServoState currentState = climbing.getCurrentServoState();
-
-                if (currentState == Climbing.ServoState.RETRACTED_IDLE || currentState == Climbing.ServoState.STOPPED) {
-                    climbing.startExtending();
-                } else if (currentState == Climbing.ServoState.EXTENDED_IDLE) {
-                    climbing.startRetracting();
-                }
-            }
-
-            climbing.updateServoMechanism();
-
-            toggleButtonLastState = currentToggleButtonState;
 
             if(gamepad1.dpad_down) {
                 climbing.drive();
