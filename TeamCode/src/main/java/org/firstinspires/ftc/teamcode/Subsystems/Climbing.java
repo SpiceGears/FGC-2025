@@ -17,8 +17,8 @@ public class Climbing {
     }
 
     public void init() {
-        leftClimb = opMode.hardwareMap.get(DcMotor.class, "leftClimb");
-        rightClimb = opMode.hardwareMap.get(DcMotor.class, "rightClimb");
+        leftClimb = opMode.hardwareMap.get(DcMotor.class, "climbLeft");
+        rightClimb = opMode.hardwareMap.get(DcMotor.class, "climbRight");
 
         leftClimb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightClimb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

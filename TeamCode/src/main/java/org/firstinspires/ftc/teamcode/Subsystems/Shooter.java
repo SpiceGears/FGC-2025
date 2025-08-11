@@ -26,12 +26,12 @@ public class Shooter {
         rightShooter.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void shoot(float speed) {
+    public void startSpinning(float speed) {
         leftShooter.setPower(speed);
         rightShooter.setPower(speed);
     }
 
-    public void stop() {
+    public void stopSpinning() {
         leftShooter.setPower(0);
         rightShooter.setPower(0);
     }
