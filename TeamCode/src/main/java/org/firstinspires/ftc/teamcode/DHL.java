@@ -3,29 +3,23 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Bucket;
-import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Subsystems.Gate;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake;
-import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
-@TeleOp(name="testDrive", group="Linear Opmode")
-public class TestDrive extends LinearOpMode {
+@TeleOp(name="DHL", group="Linear Opmode")
+public class DHL extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
-    private final Climbing climbing = new Climbing(this);
-//    private final Shooter shooter = new Shooter(this);
     private final Intake intake = new Intake(this);
-    private final Bucket bucket = new Bucket(this);
+    private final Gate gate = new Gate(this);
 
     @Override
     public void runOpMode() {
         // Initialize the drivetrain subsystem
         drivetrain.init();
-        climbing.init();
-//        shooter.init();
         intake.init();
-        bucket.init();
+        gate.init();
 
         // Send a message to the Driver Station that the OpMode is initialized
         telemetry.addData("Status", "Initialized");
@@ -46,28 +40,16 @@ public class TestDrive extends LinearOpMode {
 
             drivetrain.drive(drive, turn);
 
-            if(gamepad1.right_bumper) {
-                bucket.setMotorPower(1);
-            } else if (gamepad1.left_bumper) {
-                bucket.setMotorPower(-1);
+            if(gamepad1.dpad_up) {
+                gate.closeGate();
+            } else if (gamepad1.dpad_down) {
+                gate.openGate();
             } else {
-                bucket.stop();
+                gate.stop();
             }
-
-            if(gamepad1.dpad_down) {
-                climbing.drive();
-            }
-
-            else if(gamepad1.dpad_up) {
-                climbing.reverse();
-            }
-            else { climbing.stop(); }
-
-            // Command the drivetrain to move
-            drivetrain.drive(drive, turn);
 
             intake.take(gamepad1.right_trigger);
-            intake.untake(gamepad1.left_trigger);
+            intake.reverseTake(gamepad1.left_trigger);
 
 
 

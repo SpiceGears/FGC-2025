@@ -5,28 +5,30 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
-public class Intake {
+public class Gate {
     private final LinearOpMode opMode;
     private DcMotor intake;
     private double power;
 
-    public Intake(LinearOpMode opMode) {
+    public Gate(LinearOpMode opMode) {
         this.opMode = opMode;
     }
 
     public void init() {
-        intake = opMode.hardwareMap.get(DcMotor.class, "intake");
+        intake = opMode.hardwareMap.get(DcMotor.class, "gate");
 
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void take(float power) {
-        intake.setPower(-power);
+    public void openGate() {
+        intake.setPower(1);
     }
 
-    public void reverseTake(float power) { intake.setPower(power); }
+    public void closeGate() {
+        intake.setPower(-1);
+    }
 
     public void stop() {
         intake.setPower(0);
