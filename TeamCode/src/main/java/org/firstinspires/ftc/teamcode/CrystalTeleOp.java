@@ -60,13 +60,35 @@ public class CrystalTeleOp extends LinearOpMode {
 
             if (gamepad1.triangle) {
                 if (vision.getLastDetectedTagId() != -1) {
-                    vision.turnTowardTag(drivetrain);
-                    telemetry.addData("Bearing to Tag (deg)", vision.getTagBearingDegrees());
+                    double kP = 0.02;
+                        Double angle = vision.getAngleToTag();
+                        if (angle == null) break;
+
+                        double error = angle;
+                        double power = kP * error;
+
+                        power = Math.max(-0.3, Math.min(0.3, power));
+
+                        drivetrain.turn(-power, power);
+
+                        if (Math.abs(error) < 1.0) break;
+
+                    drivetrain.stop();
                 } else {
                     drivetrain.stop();
                     telemetry.addLine("No tag detected");
                 }
-            } else {
+            } else if (gamepad1.circle) {
+                if (vision.getLastDetection() != null) {
+                    double forwardError = vision.getForwardDistance() - 0.5;
+                        double kPforward = 0.3;
+                        double forwardPower = kPforward * forwardError;
+                        forwardPower = Math.max(-0.4, Math.min(0.4, forwardPower));
+
+                        drivetrain.turn(forwardPower, forwardPower);
+                    }
+            }
+            else {
                 // Manual drive
                 double drive = -gamepad1.left_stick_y;
                 double turn = gamepad1.right_stick_x;

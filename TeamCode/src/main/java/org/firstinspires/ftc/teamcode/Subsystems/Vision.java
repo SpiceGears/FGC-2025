@@ -61,6 +61,23 @@ public class Vision {
         }
     }
 
+    public Double getAngleToTag() {
+        if (lastDetection != null) {
+            double x = lastDetection.pose.x;
+            double z = lastDetection.pose.z;
+            return Math.toDegrees(Math.atan2(x, z));
+        }
+        return null; // brak taga
+    }
+
+    public double getForwardDistance() {
+        return (lastDetection != null) ? lastDetection.pose.z : Double.NaN;
+    }
+
+    public double getLateralOffset() {
+        return (lastDetection != null) ? lastDetection.pose.x : Double.NaN;
+    }
+
     /** Returns the ID of the last detected tag, or -1 if none */
     public int getLastDetectedTagId() {
         return (lastDetection != null) ? lastDetection.id : -1;
@@ -71,35 +88,8 @@ public class Vision {
         return lastDetection;
     }
 
-    public double getTagBearingDegrees() {
-        if (lastDetection != null) {
-            double x = lastDetection.pose.x; // m
-            double z = lastDetection.pose.z; // m
-            double angleRad = Math.atan2(x, z);
-            return -Math.toDegrees(angleRad);
-        }
-        return 0;
-    }
-
     /** Stops the camera stream */
     public void stop() {
         camera.stopStreaming();
-    }
-
-    public void turnTowardTag(Drive drive) {
-        if (lastDetection != null) {
-            double bearingError = getTagBearingDegrees();
-            double kP = 0.03;
-            double tolerance = 1.0;
-
-            if (Math.abs(bearingError) > tolerance) {
-                double turnPower = kP * bearingError;
-                drive.drive(0, turnPower);
-            } else {
-                drive.stop();
-            }
-        } else {
-            drive.stop();
-        }
     }
 }

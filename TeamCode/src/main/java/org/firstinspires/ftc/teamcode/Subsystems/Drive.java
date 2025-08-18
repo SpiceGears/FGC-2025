@@ -46,6 +46,11 @@ public class Drive {
         rightDrive.setPower(0);
     }
 
+    public void turn(Double left, Double right) {
+        leftDrive.setPower(left);
+        rightDrive.setPower(right);
+    }
+
     public void driveDistanceMeters(double meters, double power) {
         double TICKS_PER_REV = 537.7;
         double WHEEL_DIAMETER_METERS = 0.070;
