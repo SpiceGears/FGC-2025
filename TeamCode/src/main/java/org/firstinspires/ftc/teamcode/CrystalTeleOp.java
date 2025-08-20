@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 import org.openftc.apriltag.AprilTagDetection;
 
 @TeleOp(name="Crystal", group="Linear Opmode")
-public class CrystalTeleOp extends LinearOpMode {
+public class  CrystalTeleOp extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
     private final Intake intake = new Intake(this);
@@ -59,19 +59,19 @@ public class CrystalTeleOp extends LinearOpMode {
             }
 
             if (gamepad1.triangle) {
-                if (vision.getLastDetectedTagId() != -1) {
-                    double kP = 0.02;
+                if (vision.getLastDetection() != null) {
+                    double kP = 2;
                         Double angle = vision.getAngleToTag();
-                        if (angle == null) break;
+                        if (angle == null) continue;
 
                         double error = angle;
                         double power = kP * error;
 
-                        power = Math.max(-0.3, Math.min(0.3, power));
+                        power = Math.max(-0.6, Math.min(0.6, power));
 
                         drivetrain.turn(-power, power);
 
-                        if (Math.abs(error) < 1.0) break;
+                        //if (Math.abs(error) < 1.0) continue;
 
                     drivetrain.stop();
                 } else {
@@ -80,8 +80,8 @@ public class CrystalTeleOp extends LinearOpMode {
                 }
             } else if (gamepad1.circle) {
                 if (vision.getLastDetection() != null) {
-                    double forwardError = vision.getForwardDistance() - 0.5;
-                        double kPforward = 0.3;
+                    double forwardError = vision.getForwardDistance() - 0.36;
+                        double kPforward = 2;
                         double forwardPower = kPforward * forwardError;
                         forwardPower = Math.max(-0.4, Math.min(0.4, forwardPower));
 
