@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -46,3 +47,5 @@ public class Climbing {
         leftClimb.setPower(0);
     }
 }
+=======
+>>>>>>> Stashed changes
