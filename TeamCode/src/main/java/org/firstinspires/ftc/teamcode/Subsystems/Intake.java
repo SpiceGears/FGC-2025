@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 public class Intake {
     private final LinearOpMode opMode;
     private DcMotor intake;
-    private double power;
-
     public Intake(LinearOpMode opMode) {
         this.opMode = opMode;
     }
@@ -22,11 +20,21 @@ public class Intake {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
-    public void take(float power) {
-        intake.setPower(-power);
+    public void handle(boolean up, boolean down) {
+        if(up) {
+            take();
+        } else if(down) {
+            reverseTake();
+        } else {
+            stop();
+        }
     }
 
-    public void reverseTake(float power) { intake.setPower(power); }
+    public void take() {
+        intake.setPower(-1);
+    }
+
+    public void reverseTake() { intake.setPower(1); }
 
     public void stop() {
         intake.setPower(0);

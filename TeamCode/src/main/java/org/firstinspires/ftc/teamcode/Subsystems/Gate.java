@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.util.Range;
 public class Gate {
     private final LinearOpMode opMode;
     private DcMotor intake;
-    private double power;
-
     public Gate(LinearOpMode opMode) {
         this.opMode = opMode;
     }
@@ -22,12 +20,22 @@ public class Gate {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
+    public void handle(boolean up, boolean down) {
+        if(up) {
+            openGate();
+        } else if(down) {
+            closeGate();
+        } else {
+            stop();
+        }
+    }
+
     public void openGate() {
-        intake.setPower(1);
+        intake.setPower(-1);
     }
 
     public void closeGate() {
-        intake.setPower(-1);
+        intake.setPower(1);
     }
 
     public void stop() {
