@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 import org.openftc.apriltag.AprilTagDetection;
 
 @TeleOp(name="Crystal", group="Linear Opmode")
+@Disabled
 public class  CrystalTeleOp extends LinearOpMode {
 
     private final Drive drivetrain = new Drive(this);
@@ -26,7 +28,7 @@ public class  CrystalTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
         drivetrain.init();
-        climbing.init();
+        //climbing.init();
         shooter.init();
         intake.init();
         vision = new Vision(hardwareMap);
@@ -114,12 +116,12 @@ public class  CrystalTeleOp extends LinearOpMode {
             else if (gamepad1.cross)
                 shooter.stopSpinning();
 
-            // Climbing controls
-            if (gamepad1.dpad_up)
-                climbing.drive();
-            else if (gamepad1.dpad_down)
-                climbing.reverse();
-            else climbing.stop();
+//            // Climbing controls
+//            if (gamepad1.dpad_up)
+//                climbing.drive();
+//            else if (gamepad1.dpad_down)
+//                climbing.reverse();
+//            else climbing.stop();
 
             telemetry.update();
         }
