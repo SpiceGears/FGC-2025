@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -60,6 +61,8 @@ public class Crystal extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
+    private Servo deploymentServo;
+
     private Drive drive = new Drive(this);
 
     private Intake intake = new Intake(this);
@@ -68,13 +71,16 @@ public class Crystal extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         drive.init();
         intake.init();
         shooter.init();
-
+        deploymentServo = hardwareMap.get(Servo.class, "deploy");
+        deploymentServo.setPosition(0);
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -86,7 +92,7 @@ public class Crystal extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            deploymentServo.setPosition(0.5);
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
