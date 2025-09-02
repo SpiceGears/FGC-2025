@@ -62,6 +62,7 @@ public class Crystal extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private Servo deploymentServo;
+    private Servo shooterLockServo;
 
     private Drive drive = new Drive(this);
 
@@ -80,7 +81,9 @@ public class Crystal extends LinearOpMode {
         intake.init();
         shooter.init();
         deploymentServo = hardwareMap.get(Servo.class, "deploy");
+        shooterLockServo = hardwareMap.get(Servo.class, "shooterLock");
         deploymentServo.setPosition(0);
+        shooterLockServo.setPosition(0.8); //go right
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -89,10 +92,13 @@ public class Crystal extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
+        deploymentServo.setPosition(0.5);
+        sleep(500);
+        shooterLockServo.setPosition(0.42); // -10 deg to left
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            deploymentServo.setPosition(0.5);
+
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
