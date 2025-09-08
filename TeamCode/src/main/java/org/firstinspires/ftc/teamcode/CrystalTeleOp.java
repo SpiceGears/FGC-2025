@@ -112,7 +112,7 @@ public class  CrystalTeleOp extends LinearOpMode {
 
             // Shooter controls
             if (gamepad1.square)
-                shooter.startSpinning(-1);
+                shooter.startSpinning(1);
             else if (gamepad1.cross)
                 shooter.stopSpinning();
 
@@ -124,6 +124,7 @@ public class  CrystalTeleOp extends LinearOpMode {
 //            else climbing.stop();
 
             telemetry.update();
+
         }
     }
 }
