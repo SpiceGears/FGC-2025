@@ -117,11 +117,11 @@ public class  CrystalTeleOp extends LinearOpMode {
                 shooter.stopSpinning();
 
 //            // Climbing controls
-//            if (gamepad1.dpad_up)
-//                climbing.drive();
-//            else if (gamepad1.dpad_down)
-//                climbing.reverse();
-//            else climbing.stop();
+            if (gamepad1.dpad_up)
+                climbing.drive();
+         else if (gamepad1.dpad_down)
+               climbing.reverse();
+          else climbing.stop();
 
             telemetry.update();
 
