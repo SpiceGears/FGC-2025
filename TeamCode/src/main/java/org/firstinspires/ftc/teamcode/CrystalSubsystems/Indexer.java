@@ -8,15 +8,17 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Indexer {
 
     HardwareMap hardware;
+    OpMode opMode;
     CRServo leftServo, rightServo;
 
     public Indexer(OpMode opMode) {
+        this.opMode = opMode;
         hardware = opMode.hardwareMap;
     }
 
     public void init() {
-        leftServo = hardware.get(CRServo.class, "leftIndexerServo");
-        rightServo = hardware.get(CRServo.class, "rightIndexerServo");
+        leftServo = opMode.hardwareMap.get(CRServo.class, "leftIndexerServo");
+        rightServo = opMode.hardwareMap.get(CRServo.class, "rightIndexerServo");
 
         leftServo.setDirection(Direction.FORWARD);
         rightServo.setDirection(Direction.REVERSE);
