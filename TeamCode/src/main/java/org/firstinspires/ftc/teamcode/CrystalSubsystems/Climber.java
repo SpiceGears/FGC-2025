@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class Climbing {
+public class Climber {
     private LinearOpMode opMode;
     private DcMotor intakeMotor;
-    public Climbing(LinearOpMode opMode) {this.opMode = opMode;}
+    public Climber(LinearOpMode opMode) {this.opMode = opMode;}
 
     public void init()
     {

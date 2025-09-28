@@ -29,48 +29,24 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.CrystalSubsystems.Climbing;
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.Climber;
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.Indexer;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Intake;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
 
-
-/*
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When a selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
- */
-
 @TeleOp(name="Crystal", group="Linear OpMode")
 public class Crystal extends LinearOpMode {
-
-    // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private Servo deploymentServo;
-    private Servo shooterLockServo;
-
-    private Drive drive = new Drive(this);
-
-    private Intake intake = new Intake(this);
-
-    private Shooter shooter = new Shooter(this);
-    private Climbing climb = new Climbing(this);
+    private final ElapsedTime runtime = new ElapsedTime();
+    private final Drive drive = new Drive(this);
+    private final Intake intake = new Intake(this);
+    private final Shooter shooter = new Shooter(this);
+    private final Climber climb = new Climber(this);
+    private final Indexer indexer = new Indexer(this);
 
     @Override
     public void runOpMode() {
@@ -83,34 +59,13 @@ public class Crystal extends LinearOpMode {
         intake.init();
         shooter.init();
         climb.init();
-//        deploymentServo = hardwareMap.get(Servo.class, "deploy");
-//        shooterLockServo = hardwareMap.get(Servo.class, "shooterLock");
-//        deploymentServo.setPosition(0);
-//        shooterLockServo.setPosition(0.8); //go right
+        indexer.init();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-
-        // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
-//        deploymentServo.setPosition(0.5);
-//        sleep(500);
-//        shooterLockServo.setPosition(0.42); // -10 deg to left
 
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
-
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // POV Mode uses left stick to go forward, and right stick to turn.
-            // - This uses basic math to combine motions and is easier to drive straight.
             double forward = gamepad1.left_stick_y;
             double turn  =  -gamepad1.right_stick_x;
 
@@ -120,10 +75,9 @@ public class Crystal extends LinearOpMode {
             shooter.handleShooter(gamepad1.x, gamepad1.a);
             shooter.handlePasser(gamepad1.right_bumper, gamepad1.left_bumper);
             climb.handle(gamepad1.dpad_up, gamepad1.dpad_down);
+            indexer.handle(gamepad1.right_bumper);
 
-            // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
             telemetry.update();
         }
     }
