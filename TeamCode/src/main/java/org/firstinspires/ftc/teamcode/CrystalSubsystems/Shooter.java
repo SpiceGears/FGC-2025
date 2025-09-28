@@ -57,8 +57,8 @@ public class Shooter {
 
     public void handlePasser(boolean forward, boolean reverse)
     {
-        if (forward) pass();
-        else if (reverse) reversePass();
+        if (forward) reversePass();
+        else if (reverse) pass();
         else stopPass();
     }
 

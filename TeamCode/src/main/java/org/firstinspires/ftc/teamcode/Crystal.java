@@ -33,11 +33,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.CrystalSubsystems.Climber;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Indexer;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Intake;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Shooter;
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.VisionEx;
+import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
+import org.firstinspires.ftc.teamcode.Subsystems.Vision;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.Optional;
 
 @TeleOp(name="Crystal", group="Linear OpMode")
 public class Crystal extends LinearOpMode {
@@ -45,8 +50,10 @@ public class Crystal extends LinearOpMode {
     private final Drive drive = new Drive(this);
     private final Intake intake = new Intake(this);
     private final Shooter shooter = new Shooter(this);
-    private final Climber climb = new Climber(this);
+    private final Climbing climb = new Climbing(this);
     private final Indexer indexer = new Indexer(this);
+
+    private VisionEx vision;
 
     @Override
     public void runOpMode() {
@@ -60,6 +67,7 @@ public class Crystal extends LinearOpMode {
         shooter.init();
         climb.init();
         indexer.init();
+        vision = new VisionEx(this);
 
         waitForStart();
         runtime.reset();
@@ -77,8 +85,22 @@ public class Crystal extends LinearOpMode {
             climb.handle(gamepad1.dpad_up, gamepad1.dpad_down);
             indexer.handle(gamepad1.right_bumper);
 
+
+            boolean detected = false;
+            Optional<AprilTagDetection> det = vision.getDetections().stream().findFirst();
+            if (det.isPresent()) detected = true;
+
+
+
+
+
+
             telemetry.addData("Status", "Run Time: " + runtime.toString());
+            if (detected) telemetry.addData("April tag: ", det.get().id);
+            else telemetry.addData("No April Tag", "");
             telemetry.update();
         }
+
+        vision.dispose();
     }
 }

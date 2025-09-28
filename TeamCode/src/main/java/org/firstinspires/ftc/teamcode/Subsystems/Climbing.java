@@ -40,6 +40,13 @@ public class Climbing {
         rightClimb.setPower(-1);
     }
 
+    public void  handle(boolean climbForward, boolean climbBackward)
+    {
+        if (climbForward) drive();
+        else if (climbBackward) reverse();
+        else stop();
+    }
+
     public void stop() {
         rightClimb.setPower(0);
         leftClimb.setPower(0);

@@ -28,6 +28,7 @@ dependencies {
     //noinspection Aligned16KB
     implementation 'org.openftc:easyopencv:1.7.3'
     implementation 'org.openftc:apriltag:2.1.0'
+    implementation files('lib/EcoEquilibriumAprilTagLibrary-1.0.jar')
 }
 
 dependencies {
