@@ -105,9 +105,9 @@ public class  CrystalTeleOp extends LinearOpMode {
             else intake.stopTaking();
 
             if (gamepad1.right_bumper)
-                intake.pass(1);
-            else if (gamepad1.left_bumper)
                 intake.pass(-1);
+            else if (gamepad1.left_bumper)
+                intake.pass(1);
             else intake.stopPassing();
 
             // Shooter controls
