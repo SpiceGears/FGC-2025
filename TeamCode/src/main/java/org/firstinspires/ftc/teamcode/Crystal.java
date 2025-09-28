@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.Climbing;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Intake;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
@@ -69,6 +70,7 @@ public class Crystal extends LinearOpMode {
     private Intake intake = new Intake(this);
 
     private Shooter shooter = new Shooter(this);
+    private Climbing climb = new Climbing(this);
 
     @Override
     public void runOpMode() {
@@ -80,10 +82,11 @@ public class Crystal extends LinearOpMode {
         drive.init();
         intake.init();
         shooter.init();
-        deploymentServo = hardwareMap.get(Servo.class, "deploy");
-        shooterLockServo = hardwareMap.get(Servo.class, "shooterLock");
-        deploymentServo.setPosition(0);
-        shooterLockServo.setPosition(0.8); //go right
+        climb.init();
+//        deploymentServo = hardwareMap.get(Servo.class, "deploy");
+//        shooterLockServo = hardwareMap.get(Servo.class, "shooterLock");
+//        deploymentServo.setPosition(0);
+//        shooterLockServo.setPosition(0.8); //go right
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -92,9 +95,9 @@ public class Crystal extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
         runtime.reset();
-        deploymentServo.setPosition(0.5);
-        sleep(500);
-        shooterLockServo.setPosition(0.42); // -10 deg to left
+//        deploymentServo.setPosition(0.5);
+//        sleep(500);
+//        shooterLockServo.setPosition(0.42); // -10 deg to left
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
@@ -116,6 +119,7 @@ public class Crystal extends LinearOpMode {
             intake.handle(gamepad1.right_trigger > 0.5, gamepad1.left_trigger > 0.5);
             shooter.handleShooter(gamepad1.x, gamepad1.a);
             shooter.handlePasser(gamepad1.right_bumper, gamepad1.left_bumper);
+            climb.handle(gamepad1.dpad_up, gamepad1.dpad_down);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

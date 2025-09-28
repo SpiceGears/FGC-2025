@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 import org.openftc.apriltag.AprilTagDetection;
 
-@TeleOp(name="Crystal", group="Linear Opmode")
+@TeleOp(name="CrystalTeleOp", group="Linear Opmode")
 @Disabled
 public class  CrystalTeleOp extends LinearOpMode {
 
@@ -112,7 +112,7 @@ public class  CrystalTeleOp extends LinearOpMode {
 
             // Shooter controls
             if (gamepad1.square)
-                shooter.startSpinning(1);
+                shooter.startSpinning(-1);
             else if (gamepad1.cross)
                 shooter.stopSpinning();
 

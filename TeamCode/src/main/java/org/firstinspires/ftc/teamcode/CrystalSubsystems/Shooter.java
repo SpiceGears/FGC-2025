@@ -30,8 +30,8 @@ public class Shooter {
 
     public void spin()
     {
-        shooterMotorL.setPower(1);
-        shooterMotorR.setPower(1);
+        shooterMotorL.setPower(-1);
+        shooterMotorR.setPower(-1);
     }
 
     public void stopSpin()
