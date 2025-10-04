@@ -15,6 +15,8 @@ import java.util.List;
 
 import global.first.EcoEquilibriumGameDatabase;
 
+
+/// # Vision subsystem
 public class VisionEx {
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
@@ -53,7 +55,7 @@ public class VisionEx {
         // Create the AprilTag processor.
         aprilTag = new AprilTagProcessor.Builder()
                 .setTagLibrary(EcoEquilibriumGameDatabase.getEcoEquilibriumTagLibrary())
-                .setCameraPose(new Position(DistanceUnit.CM,0,0,0,0), new YawPitchRollAngles(AngleUnit.DEGREES, 0,0, -90, 0))
+                .setCameraPose(new Position(DistanceUnit.CM,0,0,0,0), new YawPitchRollAngles(AngleUnit.DEGREES, 0,0, 0, 0))
                 .setOutputUnits(DistanceUnit.CM, AngleUnit.DEGREES)
                 //.setDrawAxes(false)
                 //.setDrawCubeProjection(false)

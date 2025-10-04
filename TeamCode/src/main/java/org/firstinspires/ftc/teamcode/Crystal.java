@@ -29,13 +29,20 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Indexer;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Intake;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Shooter;
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.VPAS;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.VisionEx;
 import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
@@ -53,11 +60,33 @@ public class Crystal extends LinearOpMode {
     private final Climbing climb = new Climbing(this);
     private final Indexer indexer = new Indexer(this);
 
+    public IMU imu;
+
     private VisionEx vision;
+
+    private VPAS vpas;
 
     @Override
     public void runOpMode() {
 
+
+        imu = hardwareMap.get(IMU.class, "imu");
+
+        IMU.Parameters imuParams = new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                        new Orientation(
+                                AxesReference.INTRINSIC,
+                                AxesOrder.ZXY,
+                                AngleUnit.DEGREES,
+                                -90.0f,
+                                0.0f,
+                                90+23.0f,
+                                0
+                        )
+                )
+        );
+
+        imu.initialize(imuParams);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -69,10 +98,18 @@ public class Crystal extends LinearOpMode {
         indexer.init();
         vision = new VisionEx(this);
 
+
+
+        vpas = new VPAS(drive, vision, this, imu);
+
         waitForStart();
         runtime.reset();
 
+        vpas.start();
+
         while (opModeIsActive()) {
+
+            vpas.tick();
 
             double forward = gamepad1.left_stick_y;
             double turn  =  -gamepad1.right_stick_x;
@@ -86,18 +123,12 @@ public class Crystal extends LinearOpMode {
             indexer.handle(gamepad1.right_bumper);
 
 
-            boolean detected = false;
-            Optional<AprilTagDetection> det = vision.getDetections().stream().findFirst();
-            if (det.isPresent()) detected = true;
-
-
 
 
 
 
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            if (detected) telemetry.addData("April tag: ", det.get().id);
-            else telemetry.addData("No April Tag", "");
+            vpas.telemetry();
             telemetry.update();
         }
 
