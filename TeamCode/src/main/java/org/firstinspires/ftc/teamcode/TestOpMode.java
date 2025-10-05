@@ -3,24 +3,27 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystems.ExampleSubsystem;
+
+import pl.spicegears.fgc.lib.Logger;
+
 @TeleOp(name="TestOpMode", group="Testing")
 public class TestOpMode extends LinearOpMode {
+    Logger log = new Logger(telemetry);
+    ExampleSubsystem exampleSubsystem = new ExampleSubsystem(hardwareMap);
 
     @Override
     public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+
+        exampleSubsystem.init();
+
+        log.addStatus(exampleSubsystem);
+        log.send();
 
         waitForStart();
 
-        telemetry.addData("Status", "Running");
-        telemetry.update();
-
         while(opModeIsActive()) {
-
-            telemetry.addData("OpMode Status", "Active");
-
-            telemetry.update();
+            exampleSubsystem.exampleCommand();
         }
     }
 }

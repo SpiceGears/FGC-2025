@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils;
-
-import java.util.Objects;
+package pl.spicegears.fgc.lib;
 
 public class Status {
 

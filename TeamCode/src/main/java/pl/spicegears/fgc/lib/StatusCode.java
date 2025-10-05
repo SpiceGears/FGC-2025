@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils;
+package pl.spicegears.fgc.lib;
 
 public enum StatusCode {
     NOT_INITIATED(0),
