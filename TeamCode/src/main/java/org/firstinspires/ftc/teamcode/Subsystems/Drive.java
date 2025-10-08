@@ -17,6 +17,12 @@ public class Drive {
         this.opMode = opMode;
     }
 
+    /// # Returns array of drive motors, in order left-right
+    public DcMotor[] getMotors()
+    {
+        return new DcMotor[]{leftDrive, rightDrive};
+    }
+
     public void init() {
         leftDrive = opMode.hardwareMap.get(DcMotor.class, "leftDrive");
         rightDrive = opMode.hardwareMap.get(DcMotor.class, "rightDrive");
