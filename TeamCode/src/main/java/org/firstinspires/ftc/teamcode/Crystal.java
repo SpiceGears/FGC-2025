@@ -40,17 +40,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Indexer;
-import org.firstinspires.ftc.teamcode.CrystalSubsystems.Lance;
+import org.firstinspires.ftc.teamcode.CrystalSubsystems.Lock;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Intake;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.Shooter;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.VPAS;
 import org.firstinspires.ftc.teamcode.CrystalSubsystems.VisionEx;
 import org.firstinspires.ftc.teamcode.Subsystems.Climbing;
 import org.firstinspires.ftc.teamcode.Subsystems.Drive;
-import org.firstinspires.ftc.teamcode.Subsystems.Vision;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.Optional;
 
 @TeleOp(name="Crystal", group="Linear OpMode")
 public class Crystal extends LinearOpMode {
@@ -61,7 +57,7 @@ public class Crystal extends LinearOpMode {
     private final Climbing climb = new Climbing(this);
     private final Indexer indexer = new Indexer(this);
 
-    private final Lance lance = new Lance(this);
+    private final Lock lance = new Lock(this);
 
     public IMU imu;
 
