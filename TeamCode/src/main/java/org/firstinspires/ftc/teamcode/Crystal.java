@@ -123,9 +123,9 @@ public class Crystal extends LinearOpMode {
             );
             shooter.handleShooter((gamepad1.x || gamepad2.x), (gamepad1.a || gamepad2.a));
             shooter.handlePasser((gamepad1.right_bumper || gamepad2.right_bumper), (gamepad1.left_bumper || gamepad2.left_bumper));
-            climb.handle((gamepad1.dpad_up || gamepad2.dpad_up), (gamepad1.dpad_down || gamepad2.dpad_down));
+            climb.handle(gamepad1.dpad_up, gamepad1.dpad_down );
             indexer.handle(gamepad1.right_bumper || gamepad2.right_bumper);
-            lance.handle(gamepad2.dpad_left || gamepad1.dpad_left, gamepad2.dpad_right || gamepad1.dpad_right);
+            lance.handle(gamepad2.dpad_left, gamepad2.dpad_right);
 
 
 
