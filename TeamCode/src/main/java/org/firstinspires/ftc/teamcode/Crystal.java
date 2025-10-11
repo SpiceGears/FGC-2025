@@ -121,8 +121,9 @@ public class Crystal extends LinearOpMode {
 
             drive.drive(forward, turn);
             intake.handle(
-                    (gamepad1.right_trigger > 0.5) || (gamepad2.right_trigger > 0.5),
-                    (gamepad1.left_trigger > 0.5)  || (gamepad2.left_trigger > 0.5)
+
+                    (gamepad1.left_trigger > 0.5)  || (gamepad2.left_trigger > 0.5),
+                    (gamepad1.right_trigger > 0.5) || (gamepad2.right_trigger > 0.5)
             );
             shooter.handleShooter((gamepad1.x || gamepad2.x), (gamepad1.a || gamepad2.a));
             shooter.handlePasser((gamepad1.right_bumper || gamepad2.right_bumper), (gamepad1.left_bumper || gamepad2.left_bumper));
