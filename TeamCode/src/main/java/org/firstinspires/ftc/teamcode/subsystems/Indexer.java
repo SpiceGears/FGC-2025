@@ -10,11 +10,8 @@ import pl.spicegears.fgc.lib.StatusCode;
 import pl.spicegears.fgc.lib.Subsystem;
 
 public class Indexer extends Subsystem {
-
     CRServo leftServo, rightServo;
-
     HardwareMap hardwareMap;
-
     public Indexer(HardwareMap hardwareMap) {
         super("Indexer");
         this.hardwareMap = hardwareMap;

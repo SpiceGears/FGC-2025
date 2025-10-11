@@ -37,7 +37,7 @@ public class Intake extends Subsystem {
         if(getStatusCode() < 10) return;
 
         if (intakeForward > Config.TRIGGER_THRESHOLD) startMotor();
-        else if (intakeReverse > Config.TRIGGER_THRESHOLD) startMotorReverse();
+        else if (intakeReverse > Config.TRIGGER_THRESHOLD) reverseMotor();
         else stopMotor();
     }
 
@@ -45,7 +45,7 @@ public class Intake extends Subsystem {
         if(getStatusCode() < 10) return;
 
         if (intakeForward) startMotor();
-        else if (intakeReverse) startMotorReverse();
+        else if (intakeReverse) reverseMotor();
         else stopMotor();
     }
 
@@ -53,7 +53,7 @@ public class Intake extends Subsystem {
         motor.setPower(1);
     }
 
-    private void startMotorReverse() {
+    private void reverseMotor() {
         motor.setPower(-1);
     }
 

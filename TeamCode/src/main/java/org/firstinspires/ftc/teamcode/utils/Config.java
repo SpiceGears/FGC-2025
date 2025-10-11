@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.utils;
 @com.acmerobotics.dashboard.config.Config
 public class Config {
+    //DRIVE
     public static String DRIVE_LEFT_MOTOR = "leftDrive";
     public static boolean DRIVE_LEFT_REVERSE = false;
     public static String DRIVE_RIGHT_MOTOR = "rightDrive";
@@ -15,6 +16,20 @@ public class Config {
     public static boolean INDEXER_LEFT_REVERSE = false;
     public static String INDEXER_RIGHT_SERVO = "rightIndexerServo";
     public static boolean INDEXER_RIGHT_REVERSE = true;
+
+    //SHOOTER
+    public static String SHOOTER_LEFT_MOTOR = "leftShooter";
+    public static boolean SHOOTER_LEFT_REVERSE = false;
+    public static String SHOOTER_RIGHT_MOTOR = "rightShooter";
+    public static boolean SHOOTER_RIGHT_REVERSE = true;
+    public static String PASS_MOTOR = "passMotor";
+    public static boolean PASS_REVERSE = false;
+
+    //CLIMBER
+    public static String CLIMBER_LEFT_MOTOR = "climbLeft";
+    public static boolean CLIMBER_LEFT_REVERSE = true;
+    public static String CLIMBER_RIGHT_MOTOR = "climbRight";
+    public static boolean CLIMBER_RIGHT_REVERSE = false;
 
 
     public static boolean DEBUG = true;
