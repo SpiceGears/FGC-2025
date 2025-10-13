@@ -15,20 +15,20 @@ import pl.spicegears.fgc.lib.Logger;
 @TeleOp(name="CrystalFinal", group="Crystal")
 public class CrystalFinal extends LinearOpMode {
     private final Logger log = new Logger(telemetry);
-    private final Drivetrain drive = new Drivetrain(hardwareMap);
-    private final Intake intake = new Intake(hardwareMap);
-    private final Indexer indexer = new Indexer(hardwareMap);
-    private final Shooter shooter = new Shooter(hardwareMap);
-    private final Climber climber = new Climber(hardwareMap);
+    private final Drivetrain drive = new Drivetrain();
+    private final Intake intake = new Intake();
+    private final Indexer indexer = new Indexer();
+    private final Shooter shooter = new Shooter();
+    private final Climber climber = new Climber();
 
     @Override
     public void runOpMode() {
 
-        drive.init();
-        intake.init();
-        indexer.init();
-        shooter.init();
-        climber.init();
+        drive.init(hardwareMap);
+        intake.init(hardwareMap);
+        indexer.init(hardwareMap);
+        shooter.init(hardwareMap);
+        climber.init(hardwareMap);
 
         logSubsystemsStatus();
         log.send();
@@ -39,7 +39,7 @@ public class CrystalFinal extends LinearOpMode {
 
             drive.drive(gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
-            intake.handle(gamepad1.right_trigger, gamepad1.left_trigger);
+            intake.handle(gamepad1.right_trigger, gamepad1.left_trigger, gamepad2.right_trigger, gamepad2.left_trigger);
 
             indexer.handle(gamepad1.right_bumper || gamepad2.right_bumper);
 
@@ -47,12 +47,14 @@ public class CrystalFinal extends LinearOpMode {
 
             shooter.handlePass((gamepad1.right_bumper || gamepad2.right_bumper), (gamepad1.left_bumper || gamepad2.left_bumper));
 
-            climber.handle((gamepad1.dpad_up || gamepad2.dpad_up), (gamepad1.dpad_down || gamepad2.dpad_down));
+            climber.handleClimber((gamepad1.dpad_up || gamepad2.dpad_up), (gamepad1.dpad_down || gamepad2.dpad_down));
+
+            climber.handleLock(gamepad2.dpad_right, gamepad2.dpad_left);
 
             if(Config.DEBUG) {
                 logSubsystemsStatus();
+                logShooter();
             }
-
             log.send();
 
         }
@@ -65,4 +67,21 @@ public class CrystalFinal extends LinearOpMode {
         log.addStatus(shooter);
         log.addStatus(climber);
     }
+    boolean blipped = false;
+    double threshold = 1700;
+    void logShooter() {
+        double leftVel = shooter.getVelocities()[0];
+        double rightVel = shooter.getVelocities()[1];
+        log.addLine("Left Velocity", shooter.getVelocities()[0]);
+        log.addLine("Right Velocity", shooter.getVelocities()[1]);
+
+        if(blipped && (leftVel < threshold || rightVel < threshold)) {
+            blipped = false;
+        }
+        if(!blipped && (leftVel > threshold || rightVel > threshold)) {
+            gamepad2.rumbleBlips(1);
+            blipped = true;
+        }
+    }
 }
+

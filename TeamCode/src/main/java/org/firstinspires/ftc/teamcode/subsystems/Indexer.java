@@ -11,13 +11,11 @@ import pl.spicegears.fgc.lib.Subsystem;
 
 public class Indexer extends Subsystem {
     CRServo leftServo, rightServo;
-    HardwareMap hardwareMap;
-    public Indexer(HardwareMap hardwareMap) {
+    public Indexer() {
         super("Indexer");
-        this.hardwareMap = hardwareMap;
     }
 
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
         try {
             leftServo = hardwareMap.get(CRServo.class, Config.INDEXER_LEFT_SERVO);
             rightServo = hardwareMap.get(CRServo.class, Config.INDEXER_RIGHT_SERVO);
@@ -28,6 +26,7 @@ public class Indexer extends Subsystem {
             setStatus(StatusCode.INITIATED);
         } catch (Exception e) {
             setStatus(StatusCode.HARDWARE_NOT_FOUND);
+            if(Config.DEBUG) setStatus(StatusCode.HARDWARE_NOT_FOUND, e.getMessage());
         }
     }
 

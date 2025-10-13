@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,20 +14,18 @@ import pl.spicegears.fgc.lib.Subsystem;
 
 public class Shooter extends Subsystem {
 
-    DcMotor leftShooterMotor;
-    DcMotor rightShooterMotor;
+    DcMotorEx leftShooterMotor;
+    DcMotorEx rightShooterMotor;
     DcMotor passMotor;
-    HardwareMap hardwareMap;
     boolean shooterActive;
-    public Shooter(HardwareMap hardwareMap) {
+    public Shooter() {
         super("Shooter");
-        this.hardwareMap = hardwareMap;
     }
 
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
         try {
-            leftShooterMotor = hardwareMap.get(DcMotor.class, Config.SHOOTER_LEFT_MOTOR);
-            rightShooterMotor = hardwareMap.get(DcMotor.class, Config.SHOOTER_RIGHT_MOTOR);
+            leftShooterMotor = hardwareMap.get(DcMotorEx.class, Config.SHOOTER_LEFT_MOTOR);
+            rightShooterMotor = hardwareMap.get(DcMotorEx.class, Config.SHOOTER_RIGHT_MOTOR);
             passMotor = hardwareMap.get(DcMotor.class, Config.PASS_MOTOR);
 
             leftShooterMotor.setDirection(Config.SHOOTER_LEFT_REVERSE ? Direction.REVERSE : Direction.FORWARD);
@@ -46,6 +45,7 @@ public class Shooter extends Subsystem {
             setStatus(StatusCode.INITIATED);
         } catch (Exception e) {
             setStatus(StatusCode.HARDWARE_NOT_FOUND);
+            if(Config.DEBUG) setStatus(StatusCode.HARDWARE_NOT_FOUND, e.getMessage());
         }
     }
 
@@ -78,6 +78,7 @@ public class Shooter extends Subsystem {
 
     public void handlePass(boolean forward, boolean reverse)
     {
+        if(getStatusCode() < 10) return;
         if (forward) startPassMotors();
         else if (reverse) reversePassMotors();
         else stopPassMotors();
@@ -85,10 +86,19 @@ public class Shooter extends Subsystem {
 
     public void handleShooter(boolean start, boolean stop)
     {
+        if(getStatusCode() < 10) return;
         if (start) shooterActive = true;
         else if (stop) shooterActive = false;
 
         if (shooterActive) startShooterMotors();
         else stopShooterMotors();
+
+        //double vel=leftShooterMotor.getVelocity();
+
+        //if (shooterActive) this.setStatus(StatusCode.INITIATED, String.valueOf("Current velocity: " + vel));
+    }
+
+    public double[] getVelocities() {
+        return new double[]{leftShooterMotor.getVelocity(), rightShooterMotor.getVelocity()};
     }
 }
