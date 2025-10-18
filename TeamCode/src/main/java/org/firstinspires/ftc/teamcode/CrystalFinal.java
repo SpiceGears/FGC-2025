@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Indexer;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.Config;
 
 import pl.spicegears.fgc.lib.Logger;
@@ -15,20 +16,37 @@ import pl.spicegears.fgc.lib.Logger;
 @TeleOp(name="CrystalFinal", group="Crystal")
 public class CrystalFinal extends LinearOpMode {
     private final Logger log = new Logger(telemetry);
-    private final Drivetrain drive = new Drivetrain(hardwareMap);
-    private final Intake intake = new Intake(hardwareMap);
-    private final Indexer indexer = new Indexer(hardwareMap);
-    private final Shooter shooter = new Shooter(hardwareMap);
-    private final Climber climber = new Climber(hardwareMap);
+    private Drivetrain drive; // = new Drivetrain(hardwareMap);
+    private Intake intake; // = new Intake(hardwareMap);
+    private Indexer indexer; // = new Indexer(hardwareMap);
+    private Shooter shooter; // = new Shooter(hardwareMap);
+    private Climber climber; // = new Climber(hardwareMap);
+
+    private Vision vision; // = new Vision(hardwareMap, gamepad2, drive);
 
     @Override
     public void runOpMode() {
+
+        //log = new Logger(telemetry);
+        drive = new Drivetrain(hardwareMap);
+        intake = new Intake(hardwareMap);
+        indexer = new Indexer(hardwareMap);
+        shooter = new Shooter(hardwareMap);
+        climber = new Climber(hardwareMap);
+
+        vision = new Vision(hardwareMap, gamepad2, drive);
+
+
+
+
 
         drive.init();
         intake.init();
         indexer.init();
         shooter.init();
         climber.init();
+
+        vision.init();
 
         logSubsystemsStatus();
         log.send();
@@ -48,6 +66,8 @@ public class CrystalFinal extends LinearOpMode {
             shooter.handlePass((gamepad1.right_bumper || gamepad2.right_bumper), (gamepad1.left_bumper || gamepad2.left_bumper));
 
             climber.handle((gamepad1.dpad_up || gamepad2.dpad_up), (gamepad1.dpad_down || gamepad2.dpad_down));
+
+            vision.handle(gamepad2.y || gamepad1.y, gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
             if(Config.DEBUG) {
                 logSubsystemsStatus();

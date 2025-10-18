@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.utils;
 public class Config {
     //DRIVE
     public static String DRIVE_LEFT_MOTOR = "leftDrive";
-    public static boolean DRIVE_LEFT_REVERSE = false;
+    public static boolean DRIVE_LEFT_REVERSE = true;
     public static String DRIVE_RIGHT_MOTOR = "rightDrive";
     public static boolean DRIVE_RIGHT_REVERSE = false;
 
@@ -22,7 +22,7 @@ public class Config {
     public static boolean SHOOTER_LEFT_REVERSE = false;
     public static String SHOOTER_RIGHT_MOTOR = "rightShooter";
     public static boolean SHOOTER_RIGHT_REVERSE = true;
-    public static String PASS_MOTOR = "passMotor";
+    public static String PASS_MOTOR = "passShooter";
     public static boolean PASS_REVERSE = false;
 
     //CLIMBER
@@ -30,6 +30,8 @@ public class Config {
     public static boolean CLIMBER_LEFT_REVERSE = true;
     public static String CLIMBER_RIGHT_MOTOR = "climbRight";
     public static boolean CLIMBER_RIGHT_REVERSE = false;
+
+    public static String WEB_CAMERA_NAME = "Webcam 1";
 
 
     public static boolean DEBUG = true;
