@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import global.first.EcoEquilibriumGameDatabase;
+import pl.spicegears.fgc.lib.Logger;
 import pl.spicegears.fgc.lib.StatusCode;
 import pl.spicegears.fgc.lib.Subsystem;
 
@@ -35,15 +36,25 @@ public class Vision extends Subsystem {
 
     public int lockedAprilTag = 0;
     HardwareMap hardwareMap;
-    public Vision(HardwareMap hardwareMap, Gamepad copilot_gamepad, Drivetrain drivetrain) {
+    public Vision(Drivetrain drivetrain) {
         super("Vision");
-        this.hardwareMap = hardwareMap;
-        this.copilot_gamepad = copilot_gamepad;
+        //this.copilot_gamepad = copilot_gamepad;
         this.drive = drivetrain;
     }
 
+    private Logger log;
+
+
+    ///  assigns gamepad and logger to vision subsystem
+    public void assignGamepadLogger(Gamepad gamepad, Logger logger)
+    {
+        this.copilot_gamepad = gamepad;
+        this.log = logger;
+    }
+
     @Override
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
+        this.hardwareMap = hardwareMap;
         if (drive == null)
         {
             setStatus(StatusCode.NOT_INITIATED, "Drivetrain subsystem is null");
@@ -107,6 +118,8 @@ public class Vision extends Subsystem {
 
     private boolean detectionLock = false;
 
+    private boolean aligned = true;
+
     private double tagPoseX = 0;
     private double tagPoseY = 0;
 
@@ -121,11 +134,14 @@ public class Vision extends Subsystem {
             List<AprilTagDetection> detections = getDetections();
             for (AprilTagDetection detect : detections) {
                 if (Arrays.stream(TARGET_APRILTAGS_ID).anyMatch(d -> d == detect.id)) {
-
-                    copilot_gamepad.rumble(50);
+                    log.addLine("Vision:", "AprilTags detected");
+                    if (copilot_gamepad != null) copilot_gamepad.rumble(50);
 
                     if (lockButton) {
                         detectionLock = true;
+                        aligned = false;
+
+                        lockedAprilTag = detect.id;
 
                         AprilTagPoseFtc tagpose = detect.ftcPose;
                         tagPoseX = tagpose.x;
@@ -138,50 +154,64 @@ public class Vision extends Subsystem {
         }
         else
         {
-            if (lockButton) {detectionLock = false; return;}
+            log.addLine("VISION LOCKED ONTO: ", lockedAprilTag);
+            if (lockButton) {detectionLock = false; lockedAprilTag = 0; return;}
             if (is_pilot_steering) { return; }
 
             List<AprilTagDetection> detections = getDetections();
             for (AprilTagDetection detect : detections) {
                 if ((lockedAprilTag == detect.id)) {
+                    log.addLine("Vision: AprilTag still visible", "");
+                    aligned = false;
                         AprilTagPoseFtc tagpose = detect.ftcPose;
                         tagPoseX = tagpose.x;
                         tagPoseY = tagpose.y;
                         //tagpose.
                         break;
-                    }
                 }
             }
             autoAlign();
-            //detectionLock = false;
         }
+
+            //detectionLock = false;
+    }
 
 
 
     private void autoAlign()
     {
-
+        if (aligned) return;
         //add camera & ecosystem offsets
-        tagPoseX = tagPoseX + Constants.CAMERA_OFFSET_X;
-        tagPoseY = tagPoseY - Constants.CAMERA_OFFSET_Y;
+        tagPoseX = tagPoseX + Constants.CAMERA_OFFSET_X + Constants.ECOSYSTEM_OFFSET_X;
+        tagPoseY = tagPoseY - Constants.CAMERA_OFFSET_Y - Constants.ECOSYSTEM_OFFSET_Y;
 
         double angleToTag_rad = Math.atan2(tagPoseY, tagPoseX);
         double angleToTag_deg = Math.toDegrees(angleToTag_rad);
+        angleToTag_deg -= 90;
+        angleToTag_deg += Constants.CAMERA_ANGLE_DEG;
+        if (Math.abs(angleToTag_deg) <= Constants.CAMERA_ALIGNMENT_DEADZONE_DEG ) {aligned = true; return;}
+        log.addLine("Vision: Aligning robot by degrees: ", angleToTag_deg);
         int[] targetTicks = ticksForTurnDegrees(angleToTag_deg); //calculate target encoder positions, index 0 - left, index 1 - right
 
 
         int[] currentPos = drive.getCurrentPosition();
 
         //we do inverse-offsets, since our camera is facing backward, not forward
-        currentPos[0] += targetTicks[1];
-        currentPos[1] += targetTicks[0];
+        currentPos[1] += targetTicks[1];
+        currentPos[0] += targetTicks[0];
 
         //use the drivetrain to rotate the robot to proper position
-        drive.driveToPos(currentPos[0], currentPos[1], 0.5);
+        drive.driveToPos(currentPos[0], currentPos[1], 0.9);
 
+        aligned = true;
         //we finished our task - let go of the lock
-        detectionLock = false;
+        //detectionLock = false;
 
+
+    }
+
+    public void telemetry()
+    {
 
     }
 
@@ -190,7 +220,7 @@ public class Vision extends Subsystem {
     public static int[] ticksForTurnDegrees(double turnDegrees) {
         // constants definition
         double W = Constants.ROBOT_WIDTH_CM;         // cm
-        double D = Constants.WHEEL_DIAMETER_CM;     // cm
+        double D = Constants.WHEEL_DIAMETER_CM / 2;     // cm
         double gear = Constants.DRIVETRAIN_GEAR_RATIO; // motor:wheel (15 : 1)
         double ticksPerMotorRev = Constants.TICKS_PER_REVOLUTION; //ticks per rev
 

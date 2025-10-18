@@ -35,8 +35,8 @@ public class Drivetrain extends Subsystem {
             leftMotor.setMode(RunMode.STOP_AND_RESET_ENCODER);
             rightMotor.setMode(RunMode.STOP_AND_RESET_ENCODER);
 
-            leftMotor.setMode(RunMode.RUN_USING_ENCODER);
-            rightMotor.setMode(RunMode.RUN_USING_ENCODER); //TEST
+            leftMotor.setMode(RunMode.RUN_WITHOUT_ENCODER);
+            rightMotor.setMode(RunMode.RUN_WITHOUT_ENCODER);
 
             setStatus(StatusCode.INITIATED);
         } catch (Exception e) {

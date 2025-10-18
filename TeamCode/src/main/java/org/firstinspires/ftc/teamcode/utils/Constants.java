@@ -11,6 +11,10 @@ public final class Constants {
     public static final double CAMERA_OFFSET_X = 15.0; //right of center
     public static final double CAMERA_OFFSET_Y = -42.0; //behind the center
 
+    public static final double CAMERA_ANGLE_DEG = 3;
+
+    public static final double CAMERA_ALIGNMENT_DEADZONE_DEG = 2;
+
     public static final double ECOSYSTEM_OFFSET_X = 28.5;
-    public static final double ECOSYSTEM_OFFSET_Y = 0;
+    public static final double ECOSYSTEM_OFFSET_Y = -100;
 }

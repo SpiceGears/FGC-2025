@@ -22,6 +22,8 @@ public class CrystalFinal extends LinearOpMode {
     private final Shooter shooter = new Shooter();
     private final Climber climber = new Climber();
 
+    private final Vision vision = new Vision(drive);
+
     @Override
     public void runOpMode() {
 
@@ -31,7 +33,8 @@ public class CrystalFinal extends LinearOpMode {
         shooter.init(hardwareMap);
         climber.init(hardwareMap);
 
-        vision.init();
+        vision.init(hardwareMap);
+        vision.assignGamepadLogger(this.gamepad1, log);
 
         logSubsystemsStatus();
         log.send();
@@ -54,7 +57,7 @@ public class CrystalFinal extends LinearOpMode {
 
             climber.handleLock(gamepad2.dpad_right, gamepad2.dpad_left);
 
-            vision.handle(gamepad2.y || gamepad1.y, gamepad1.left_stick_y, -gamepad1.right_stick_x);
+            vision.handle(gamepad1.y, gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
             if(Config.DEBUG) {
                 logSubsystemsStatus();
