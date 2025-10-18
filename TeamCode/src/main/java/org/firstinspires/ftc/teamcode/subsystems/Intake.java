@@ -13,14 +13,12 @@ import pl.spicegears.fgc.lib.Subsystem;
 
 public class Intake extends Subsystem {
 
-    HardwareMap hardwareMap;
     DcMotor motor;
 
-    public Intake(HardwareMap hardwareMap) {
+    public Intake() {
         super("Intake");
-        this.hardwareMap = hardwareMap;
     }
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
         try {
             motor = hardwareMap.get(DcMotor.class, Config.INTAKE_MOTOR);
             motor.setDirection(Config.INTAKE_REVERSE ? Direction.REVERSE : Direction.FORWARD);
@@ -31,6 +29,15 @@ public class Intake extends Subsystem {
         } catch (Exception e) {
             setStatus(StatusCode.HARDWARE_NOT_FOUND);
         }
+    }
+
+    public void handle(double intakeForward, double intakeReverse,
+                        double intakeForward2, double intakeReverse2) {
+        if(getStatusCode() < 10) return;
+
+        if (intakeForward > Config.TRIGGER_THRESHOLD || intakeForward2 > Config.TRIGGER_THRESHOLD) startMotor();
+        else if (intakeReverse > Config.TRIGGER_THRESHOLD || intakeReverse2 > Config.TRIGGER_THRESHOLD) reverseMotor();
+        else stopMotor();
     }
 
     public void handle(double intakeForward, double intakeReverse) {
@@ -49,15 +56,15 @@ public class Intake extends Subsystem {
         else stopMotor();
     }
 
-    private void startMotor() {
+    public void startMotor() {
         motor.setPower(1);
     }
 
-    private void reverseMotor() {
+    public void reverseMotor() {
         motor.setPower(-1);
     }
 
-    private void stopMotor() {
+    public void stopMotor() {
         motor.setPower(0);
     }
 }

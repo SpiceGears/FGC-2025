@@ -1,5 +1,7 @@
 package pl.spicegears.fgc.lib;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 public abstract class Subsystem {
 
     private Status subsystemStatus;
@@ -7,10 +9,9 @@ public abstract class Subsystem {
 
     public Subsystem(String subsystemName) {
         this.subsystemName = subsystemName;
-        init();
     }
 
-    public abstract void init();
+    public abstract void init(HardwareMap hardwareMap);
     public String logStatus() {
         return subsystemStatus.getStatus();
     }

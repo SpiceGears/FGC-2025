@@ -9,7 +9,7 @@ public class Config {
 
     //INTAKE
     public static String INTAKE_MOTOR = "intake";
-    public static boolean INTAKE_REVERSE = false;
+    public static boolean INTAKE_REVERSE = true;
 
     //INDEXER
     public static String INDEXER_LEFT_SERVO = "leftIndexerServo";
@@ -31,6 +31,10 @@ public class Config {
     public static String CLIMBER_RIGHT_MOTOR = "climbRight";
     public static boolean CLIMBER_RIGHT_REVERSE = false;
 
+    public static String LOCK_LEFT_SERVO = "leftLock";
+    public static String LOCK_RIGHT_SERVO = "rightLock";
+    public static double UNLOCK_POS = 0.5;
+    public static double LOCK_POS = 1.0;
     public static String WEB_CAMERA_NAME = "Webcam 1";
 
 

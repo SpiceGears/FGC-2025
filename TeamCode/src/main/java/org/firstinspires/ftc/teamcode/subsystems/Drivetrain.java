@@ -16,14 +16,12 @@ public class Drivetrain extends Subsystem {
 
     DcMotor leftMotor;
     DcMotor rightMotor;
-    HardwareMap hardwareMap;
 
-    public Drivetrain(HardwareMap hardwareMap) {
+    public Drivetrain() {
         super("Drivetrain");
-        this.hardwareMap = hardwareMap;
     }
 
-    public void init() {
+    public void init(HardwareMap hardwareMap) {
         try {
             leftMotor = hardwareMap.get(DcMotor.class, Config.DRIVE_LEFT_MOTOR);
             rightMotor = hardwareMap.get(DcMotor.class, Config.DRIVE_RIGHT_MOTOR);
@@ -43,6 +41,7 @@ public class Drivetrain extends Subsystem {
             setStatus(StatusCode.INITIATED);
         } catch (Exception e) {
             setStatus(StatusCode.HARDWARE_NOT_FOUND);
+            if(Config.DEBUG) setStatus(StatusCode.HARDWARE_NOT_FOUND, e.getMessage());
         }
     }
 
