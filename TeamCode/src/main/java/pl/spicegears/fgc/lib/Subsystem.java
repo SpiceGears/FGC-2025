@@ -28,7 +28,7 @@ public abstract class Subsystem {
         this.subsystemStatus = new Status(statusCode, statusMessage);
     }
 
-    protected int getStatusCode() {
+    public int getStatusCode() {
         return subsystemStatus.getStatusCode().getCode();
     }
 

@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.subsystems.Indexer;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.subsystems.Vision;
 import org.firstinspires.ftc.teamcode.utils.Config;
 
 import pl.spicegears.fgc.lib.Logger;
@@ -30,6 +31,8 @@ public class CrystalFinal extends LinearOpMode {
         shooter.init(hardwareMap);
         climber.init(hardwareMap);
 
+        vision.init();
+
         logSubsystemsStatus();
         log.send();
 
@@ -50,6 +53,8 @@ public class CrystalFinal extends LinearOpMode {
             climber.handleClimber((gamepad1.dpad_up || gamepad2.dpad_up), (gamepad1.dpad_down || gamepad2.dpad_down));
 
             climber.handleLock(gamepad2.dpad_right, gamepad2.dpad_left);
+
+            vision.handle(gamepad2.y || gamepad1.y, gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
             if(Config.DEBUG) {
                 logSubsystemsStatus();

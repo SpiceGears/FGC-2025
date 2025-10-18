@@ -35,6 +35,7 @@ public class Config {
     public static String LOCK_RIGHT_SERVO = "rightLock";
     public static double UNLOCK_POS = 0.5;
     public static double LOCK_POS = 1.0;
+    public static String WEB_CAMERA_NAME = "Webcam 1";
 
 
     public static boolean DEBUG = true;

@@ -57,4 +57,41 @@ public class Drivetrain extends Subsystem {
         leftMotor.setPower(leftPower);
         rightMotor.setPower(rightPower);
     }
+
+    /// ### Get current position which is written as ticks
+    /// Returns an array with the following indexes
+    /// - 0 - left motor ticks
+    /// - 1 - right motor ticks
+    public int[] getCurrentPosition()
+    {
+        int leftTicks = leftMotor.getCurrentPosition();
+        int rightTicks = rightMotor.getCurrentPosition();
+        return new int[]{leftTicks, rightTicks};
+    }
+
+
+    /// ## Drives the robot to the position specified by encoder ticks
+    /// ### Note: the positions are absolute, and not offset-ed by current encoder positions
+    public void driveToPos(int leftTargetTicks, int rightTargetTicks, double power)
+    {
+        leftMotor.setTargetPosition(leftTargetTicks);
+        rightMotor.setTargetPosition(rightTargetTicks);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
+
+        while (leftMotor.isBusy() || rightMotor.isBusy())
+        {
+            setStatus(StatusCode.INITIATED, "Active run to position");
+        }
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        leftMotor.setMode(RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(RunMode.RUN_WITHOUT_ENCODER);
+        setStatus(StatusCode.INITIATED);
+    }
 }
