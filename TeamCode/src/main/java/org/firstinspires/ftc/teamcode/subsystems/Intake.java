@@ -56,15 +56,15 @@ public class Intake extends Subsystem {
         else stopMotor();
     }
 
-    private void startMotor() {
+    public void startMotor() {
         motor.setPower(1);
     }
 
-    private void reverseMotor() {
+    public void reverseMotor() {
         motor.setPower(-1);
     }
 
-    private void stopMotor() {
+    public void stopMotor() {
         motor.setPower(0);
     }
 }

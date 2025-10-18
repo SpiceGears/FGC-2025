@@ -30,19 +30,30 @@ public class Indexer extends Subsystem {
         }
     }
 
-    private void spinServos() {
+    public void spinServos() {
         leftServo.setPower(1);
         rightServo.setPower(1);
     }
 
-    private void stopServos() {
+    public void spinServosReverse() {
+        leftServo.setPower(-1);
+        rightServo.setPower(-1);
+    }
+
+    public void stopServos() {
         leftServo.setPower(0);
         rightServo.setPower(0);
     }
 
-    public void handle(boolean spin) {
-        if(getStatusCode() < 10) return;
-        if(spin) spinServos();
-        else stopServos();
+    public void handle(boolean spin, boolean reverse) {
+        if (getStatusCode() < 10) return;
+
+        if (reverse) {
+            spinServosReverse();  // Spin w odwrotnym kierunku
+        } else if (spin) {
+            spinServos();  // Spin w normalnym kierunku
+        } else {
+            stopServos();  // Zatrzymaj serwa
+        }
     }
 }

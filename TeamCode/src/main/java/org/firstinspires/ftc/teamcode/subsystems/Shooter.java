@@ -49,29 +49,29 @@ public class Shooter extends Subsystem {
         }
     }
 
-    private void startShooterMotors()
+    public void startShooterMotors()
     {
         leftShooterMotor.setPower(1);
         rightShooterMotor.setPower(1);
     }
 
-    private void stopShooterMotors()
+    public void stopShooterMotors()
     {
         leftShooterMotor.setPower(0);
         rightShooterMotor.setPower(0);
     }
 
-    private void startPassMotors()
+    public void startPassMotors()
     {
         passMotor.setPower(1);
     }
 
-    private void reversePassMotors()
+    public void reversePassMotors()
     {
         passMotor.setPower(-1);
     }
 
-    private void stopPassMotors()
+    public void stopPassMotors()
     {
         passMotor.setPower(0);
     }

@@ -43,17 +43,17 @@ public class Climber extends Subsystem {
         }
     }
 
-    private void startMotors() {
+    public void startMotors() {
         leftClimb.setPower(1);
         rightClimb.setPower(1);
     }
 
-    private void reverseMotors() {
+    public void reverseMotors() {
         leftClimb.setPower(-1);
         rightClimb.setPower(-1);
     }
 
-    private void stopMotors() {
+    public void stopMotors() {
         rightClimb.setPower(0);
         leftClimb.setPower(0);
     }

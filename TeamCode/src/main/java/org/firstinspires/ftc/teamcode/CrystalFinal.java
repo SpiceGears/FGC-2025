@@ -39,9 +39,9 @@ public class CrystalFinal extends LinearOpMode {
 
             drive.drive(gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
-            intake.handle(gamepad1.right_trigger, gamepad1.left_trigger, gamepad2.right_trigger, gamepad2.left_trigger);
+            intake.handle(gamepad1.right_trigger, gamepad1.left_trigger, gamepad2.right_trigger, gamepad2.left_trigger) ;
 
-            indexer.handle(gamepad1.right_bumper || gamepad2.right_bumper);
+            indexer.handle(gamepad1.right_bumper || gamepad2.right_bumper, gamepad1.left_bumper || gamepad2.left_bumper);
 
             shooter.handleShooter((gamepad1.x || gamepad2.x), (gamepad1.a || gamepad2.a));
 
