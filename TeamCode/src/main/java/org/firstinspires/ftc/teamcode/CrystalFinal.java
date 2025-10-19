@@ -59,9 +59,12 @@ public class CrystalFinal extends LinearOpMode {
 
             vision.handle(gamepad1.y, gamepad1.left_stick_y, -gamepad1.right_stick_x);
 
+            if(shooter.readyToShoot()) {
+                gamepad2.rumbleBlips(1);
+            }
+
             if(Config.DEBUG) {
                 logSubsystemsStatus();
-                logShooter();
             }
             log.send();
 
@@ -75,21 +78,6 @@ public class CrystalFinal extends LinearOpMode {
         log.addStatus(shooter);
         log.addStatus(climber);
     }
-    boolean blipped = false;
-    double threshold = 1700;
-    void logShooter() {
-        double leftVel = shooter.getVelocities()[0];
-        double rightVel = shooter.getVelocities()[1];
-        log.addLine("Left Velocity", shooter.getVelocities()[0]);
-        log.addLine("Right Velocity", shooter.getVelocities()[1]);
 
-        if(blipped && (leftVel < threshold || rightVel < threshold)) {
-            blipped = false;
-        }
-        if(!blipped && (leftVel > threshold || rightVel > threshold)) {
-            gamepad2.rumbleBlips(1);
-            blipped = true;
-        }
-    }
 }
 

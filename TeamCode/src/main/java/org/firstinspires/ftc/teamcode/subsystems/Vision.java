@@ -27,7 +27,7 @@ public class Vision extends Subsystem {
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
 
-    private Drivetrain drive;
+    private final Drivetrain drive;
 
 
     private Gamepad copilot_gamepad;
@@ -38,7 +38,6 @@ public class Vision extends Subsystem {
     HardwareMap hardwareMap;
     public Vision(Drivetrain drivetrain) {
         super("Vision");
-        //this.copilot_gamepad = copilot_gamepad;
         this.drive = drivetrain;
     }
 
@@ -52,7 +51,6 @@ public class Vision extends Subsystem {
         this.log = logger;
     }
 
-    @Override
     public void init(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
         if (drive == null)
@@ -79,8 +77,7 @@ public class Vision extends Subsystem {
 
     public List<AprilTagDetection> getDetections()
     {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        return currentDetections;
+        return aprilTag.getDetections();
     }
     private void initAprilTag() {
 

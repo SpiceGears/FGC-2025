@@ -24,6 +24,7 @@ public class Config {
     public static boolean SHOOTER_RIGHT_REVERSE = true;
     public static String PASS_MOTOR = "passShooter";
     public static boolean PASS_REVERSE = false;
+    public static int SHOOTER_THRESHOLD = 1700;
 
     //CLIMBER
     public static String CLIMBER_LEFT_MOTOR = "climbLeft";

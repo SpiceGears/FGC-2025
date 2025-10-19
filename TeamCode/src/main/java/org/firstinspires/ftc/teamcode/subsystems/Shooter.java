@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotor.RunMode;
 import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior;
@@ -83,7 +85,6 @@ public class Shooter extends Subsystem {
         else if (reverse) reversePassMotors();
         else stopPassMotors();
     }
-
     public void handleShooter(boolean start, boolean stop)
     {
         if(getStatusCode() < 10) return;
@@ -92,10 +93,24 @@ public class Shooter extends Subsystem {
 
         if (shooterActive) startShooterMotors();
         else stopShooterMotors();
+    }
 
-        //double vel=leftShooterMotor.getVelocity();
+    boolean blipped = false;
+    int threshold = Config.SHOOTER_THRESHOLD;
+    public boolean readyToShoot() {
+        if (getStatusCode() < 10) return false;
 
-        //if (shooterActive) this.setStatus(StatusCode.INITIATED, String.valueOf("Current velocity: " + vel));
+        double leftVel = leftShooterMotor.getVelocity();
+        double rightVel = rightShooterMotor.getVelocity();
+
+        if (blipped && (leftVel < threshold || rightVel < threshold)) {
+            blipped = false;
+        }
+        if (!blipped && (leftVel > threshold || rightVel > threshold)) {
+            blipped = true;
+            return true;
+        }
+        return false;
     }
 
     public double[] getVelocities() {
