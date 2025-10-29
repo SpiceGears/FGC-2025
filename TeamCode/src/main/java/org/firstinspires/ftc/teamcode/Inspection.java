@@ -82,9 +82,11 @@ public class Inspection extends LinearOpMode {
                     break;
 
                 case DRIVE:
-                    drive.drive(gamepad1.left_stick_y, -gamepad1.right_stick_x);
                     telemetry.addLine("DRIVE MODE (◄ to return)");
+                    telemetry.addLine("Press A for forward drive");
+                    telemetry.addLine("Press B for reverse drive");
                     if (gamepad1.a) drive.drive(1,0);
+                    if (gamepad1.b) drive.drive(-1,0);
                     else drive.drive(0, 0);
                     if (gamepad1.dpad_left) {
                         screen = Screen.MENU;
@@ -94,6 +96,8 @@ public class Inspection extends LinearOpMode {
 
                 case INTAKE:
                     telemetry.addLine("INTAKE MODE (◄ to return)");
+                    telemetry.addLine("Press A for start intake");
+                    telemetry.addLine("Press B for reverse intake");
                     if (gamepad1.a) intake.startMotor();
                     else if (gamepad1.b) intake.reverseMotor();
                     else intake.stopMotor();
@@ -106,6 +110,8 @@ public class Inspection extends LinearOpMode {
 
                 case INDEXER:
                     telemetry.addLine("INDEXER MODE (◄ to return)");
+                    telemetry.addLine("Press A for spin indexer");
+                    telemetry.addLine("Press B for reverse indexer");
                     if (gamepad1.a) indexer.spinServos();
                     else if (gamepad1.b) indexer.spinServosReverse();
                     else indexer.stopServos();
@@ -118,6 +124,10 @@ public class Inspection extends LinearOpMode {
 
                 case SHOOTER:
                     telemetry.addLine("SHOOTER MODE (◄ to return)");
+                    telemetry.addLine("Press A to start shooter");
+                    telemetry.addLine("Press B to stop shooter");
+                    telemetry.addLine("Press X to start passing");
+                    telemetry.addLine("Press Y to stop passing");
                     if (gamepad1.a) shooter.startShooterMotors();
                     else if (gamepad1.b) shooter.stopShooterMotors();
                     else if (gamepad1.x) shooter.startPassMotors();
@@ -131,6 +141,8 @@ public class Inspection extends LinearOpMode {
 
                 case CLIMBER:
                     telemetry.addLine("CLIMBER MODE (◄ to return)");
+                    telemetry.addLine("Press A to climb ");
+                    telemetry.addLine("Press B to reverse climb");
                     if (gamepad1.a) climber.startMotors();
                     else if (gamepad1.b) climber.reverseMotors();
                     else climber.stopMotors();
